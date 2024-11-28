@@ -2,13 +2,21 @@ import Student from '../models/student.js';
 
 export async function getStudents(req, res) {
 
-    const studentList = await Student.find()
+    try {
+        
+        const studentList = await Student.find()
 
-    res.json({
-        list: studentList 
+        res.json({
+            list: studentList 
    
     })
     
+    } catch (error) {
+        res.json({
+            message:error
+        })
+    }
+
     // Student.find()
     //     .then((studentList) => {
     //         res.status(200).json({
