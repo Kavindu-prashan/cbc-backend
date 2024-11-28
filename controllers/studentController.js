@@ -1,17 +1,25 @@
 import Student from '../models/student.js';
 
-export function getStudents(req, res) {
-    Student.find()
-        .then((studentList) => {
-            res.status(200).json({
-                list: studentList,
-            });
-        })
-        .catch(() => {
-            res.status(500).json({
-                message: "Students not found",
-            });
-        });
+export async function getStudents(req, res) {
+
+    const studentList = await Student.find()
+
+    res.json({
+        list: studentList 
+   
+    })
+    
+    // Student.find()
+    //     .then((studentList) => {
+    //         res.status(200).json({
+    //             list: studentList,
+    //         });
+    //     })
+        // .catch(() => {
+        //     res.status(500).json({
+        //         message: "Students not found",
+        //     });
+        // });
 }
 
 export function createStudent(req, res) {
