@@ -21,34 +21,44 @@ export function getUser(req, res) {
 }
 
 // Create a new user
-export function createUser(req, res) {
-    const newUserData = req.body;
+export function createUser(req,res){
 
-    // Hash the password correctly
-    if (!newUserData.password) {
-        return res.status(400).json({ message: "Password is required" });
-    }
-
-    newUserData.password = bcrypt.hashSync(newUserData.password, 10); // Use the correct key
-
-    console.log(newUserData);
-
-    const newUser = new User(newUserData); // Create a new instance of the User model
-
-    newUser
-        .save()
-        .then(() => {
-            res.status(201).json({
-                message: "User saved successfully",
-            });
+    const newUserData = req.body
+  
+    if(newUserData.type == "admin"){
+  
+      if(req.user==null){
+        res.json({
+          message: "Please login as administrator to create admin accounts"
         })
-        .catch((error) => {
-            res.status(500).json({
-                message: "User save failed",
-                error: error.message,
-            });
-        });
-}
+        return
+      }
+  
+      if(req.user.type != "admin"){
+        res.json({
+          message: "Please login as administrator to create admin accounts"
+        })
+        return
+      }
+  
+    }
+  
+    newUserData.password = bcrypt.hashSync(newUserData.password, 10)  
+  
+    const user = new User(newUserData)
+  
+    user.save().then(()=>{
+      res.json({
+        message: "User created"
+      })
+    }).catch((error)=>{
+      res.json({      
+        message: "User not created"
+      })
+    })
+    
+  }
+
 
 export function loginUser(req, res){
     User.find({email :req.body.email}).then(
@@ -99,3 +109,12 @@ export function deleteUser(req,res){
         }
     )
 }
+
+
+
+
+
+
+
+
+

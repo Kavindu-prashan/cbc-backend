@@ -2,7 +2,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import studentRouter from "./routes/studentRouter.js";
-import productRouter from "./routes/productRouter.js";
 import userRouter from "./routes/userRouter.js";
 import { loginUser } from "./controllers/userController.js";
 import jwt from "jsonwebtoken";
@@ -50,7 +49,6 @@ app.use(
 
 // Routes
 app.use("/api/students", studentRouter);
-app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
 app.post("/api/login", loginUser); // Separate login route
 
