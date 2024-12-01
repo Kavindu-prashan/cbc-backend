@@ -24,7 +24,7 @@ export function getUser(req, res) {
 export function createUser(req,res){
 
     const newUserData = req.body
-  
+  //admin validation
     if(newUserData.type == "admin"){
   
       if(req.user==null){
@@ -110,10 +110,26 @@ export function deleteUser(req,res){
     )
 }
 
+export function isAdmin(req){
+  if (req.user==null) {
+    return false
+  }
+  if (req.user.type!="admin") {
+    return false
+  }
+  return true
+}
 
+export function isCustomer(res){
+  if (req.user==null) {
+    return false
+  }
+  if (req.user.type!="customer") {
+    return false
+  }
+  return true
 
-
-
+}
 
 
 
