@@ -36,3 +36,21 @@ export function createProduct(req,res) {
         )
     
 }
+//use async function
+export async function getStudents(req, res) {
+
+    try {
+        
+        const productList = await Product.find()
+
+        res.json({
+            list: productList 
+   
+    })
+    
+    } catch (error) {
+        res.json({
+            message:error
+        })
+    }
+}
