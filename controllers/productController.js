@@ -37,7 +37,7 @@ export function createProduct(req,res) {
     
 }
 //use async function
-export async function getStudents(req, res) {
+export async function getProduct(req, res) {
 
     try {
         
