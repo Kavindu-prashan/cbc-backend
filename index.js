@@ -6,6 +6,7 @@ import userRouter from "./routes/userRouter.js";
 import { loginUser } from "./controllers/userController.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv"
+import productRouter from "./routes/productRouter.js";
 
 dotenv.config()
 
@@ -47,11 +48,15 @@ app.use(
 
 
 
-// Routes
+// student routers
 app.use("/api/students", studentRouter);
+
+//user routers
 app.use("/api/users", userRouter);
 app.post("/api/login", loginUser); // Separate login route
 
+//product routers
+app.use("/api/products",productRouter)
 
 // Start the server
 const PORT = 5000;

@@ -1,56 +1,34 @@
-import Product from '../models/product/js'
+import Product  from "../models/product.js";
 
-import { isAdmin } from './userController.js'
 
-if (isAdmin(req)) {
+import { isAdmin } from "./userController.js";
+
+export function createProduct(req,res){
+
+  if(!isAdmin(req)){
     res.json({
-        message:"Please login as adminto add Product"
+      message: "Please login as administrator to add products"
     })
     return
-}
+  }
 
+  const newProductData = req.body
 
+  const product = new Product(newProductData)
 
-export function createProduct(req,res) {
-
-    const newProductData = req.body
-
-    const product = new Product(newProductData)
-
-    
-
-
-    product.save().then(
-        ()=>{
-            res.json({
-                message:"Product Created"
-            })
-        }
-        ).catch((error)=>{
-            res.json({
-                message:"Product not Created",
-                message:error
-            })
-        }
-        
-        )
-    
-}
-//use async function
-export async function getProduct(req, res) {
-
-    try {
-        
-        const productList = await Product.find()
-
-        res.json({
-            list: productList 
-   
+  product.save().then(()=>{
+    res.json({
+      message: "Product created"
     })
-    
-    } catch (error) {
-        res.json({
-            message:error
-        })
-    }
+  }).catch((error)=>{
+    res.json({
+      message: error
+    })
+  })
+}
+
+export function getProducts(req,res){
+  Product.find({}).then((products)=>{
+    res.json(products)
+  })
 }
