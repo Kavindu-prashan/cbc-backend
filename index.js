@@ -7,6 +7,7 @@ import { loginUser } from "./controllers/userController.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv"
 import productRouter from "./routes/productRouter.js";
+import orderRouter from "./routes/orderRouter.js";
 
 dotenv.config()
 
@@ -57,6 +58,10 @@ app.post("/api/login", loginUser); // Separate login route
 
 //product routers
 app.use("/api/products",productRouter)
+
+//order routers
+
+app.use("/api/orders",orderRouter)
 
 // Start the server
 const PORT = 5000;

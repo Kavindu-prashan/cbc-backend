@@ -1,58 +1,64 @@
-import Order from '../models/order.js'
-import { isCustomer } from './userController'
+import Order from "../models/order.js";
+import { isCustomer } from "./userController.js";
 
-export async function createOrder(req,res) {
-    //cbc0001
+export async function createOrder(req,res){
+  
+  if(!isCustomer){
+    res.json({
+      message: "Please login as customer to create orders"
+    })
+  }
 
-    //take the last productId
+  try{
+    const latestOrder = await Order.find().sort({date : -1}).limit(1)
 
-    if (!isCustomer) {
-        res.json({
-            message:"Login as customer to create order"
-        })
+    let orderId
+
+    if(latestOrder.length == 0){
+      orderId = "CBC0001"
+    }else{
+      const currentOrderId = latestOrder[0].orderId
+
+      const numberString =  currentOrderId.replace("CBC","")
+
+      const number = parseInt(numberString)
+
+      const newNumber = (number + 1).toString().padStart(4, "0");
+
+      orderId = "CBC" + newNumber
     }
 
+    const newOrderData = req.body
+    newOrderData.orderId = orderId
+    newOrderData.email = req.user.email
 
-    try {
+    const order = new Order(newOrderData)
 
-        const lastOrder = await Order.find().sort
-        ({date:-1}).limit(1)
+    await order.save()
 
-        let orderId
-        
-        if (lastOrder.lenth == 0) {
-            orderId = "CBC0001"
-        }else{
-
-            const currentOrderId = lastOrder[0].orderId
+    res.json({
+      message: "Order created"
+    })
 
 
-            const numberString = currentOrderId.replace("CBC","")
 
-            const number = parseInt(numberString)
-    
-            const newNumber = (number+1).toString().padStart(4,"0")
+  }catch(error){
+    res.status(500).json({
+      message: error.message
+    })
+  }
 
-            orderId = "CBC" + newNumber
+}
 
-            const  order = new order(newOrderData)
-            
-            await order.save()
+export async function getOrders(req,res){
+  try{
+    const orders = await Order.find({email : req.user.email})
 
-            res.json({
-                message:"Order Created"
-            })
+    res.json(orders)
 
-        }
-        
-        const newOrderData = req.body
-        newOrderData.orderId = orderId
-        newOrderData.email = req.user.email
-      
-
-    } catch (error) {
-        res.status(500).json({
-            message:error.message
-        })
-    }
+  }catch(error){
+    res.status(500).json({
+      message: error.message
+    })
+  }
 }
