@@ -61,7 +61,7 @@ app.use("/api/products",productRouter)
 
 //order routers
 
-app.use("/api/orders",orderRouter)
+// app.use("/api/orders",orderRouter)
 
 // Start the server
 const PORT = 5000;
