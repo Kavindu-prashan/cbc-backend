@@ -120,17 +120,23 @@ export function isAdmin(req){
   return true
 }
 
-export function isCustomer(res){
-  if (req.user==null) {
-    return false
-  }
-  if (req.user.type!="customer") {
-    return false
-  }
-  return true
+// export function isCustomer(res){
+//   if (req.user==null) {
+//     return false
+//   }
+//   if (req.user.type!="customer") {
+//     return false
+//   }
+//   return true
 
+// }
+
+export function isCustomer(user) {
+  if (!user) {
+    return false; // If the user is not defined, they're not a customer.
+  }
+  return user.type === "customer"; // Check if the user's type is "customer".
 }
-
 
 
 
