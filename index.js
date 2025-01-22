@@ -15,7 +15,8 @@ dotenv.config()
 const app = express();
 const mongoUrl = process.env.MONGO_DB_URL
 
-app.use(cors)
+//core nikn liyala nisai prashne thibe function ekak widiyt liyann oni 
+app.use(cors())
 
 // Connect to MongoDB
 mongoose

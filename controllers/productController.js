@@ -30,7 +30,33 @@ export function createProduct(req,res){
 }
 
 export function getProducts(req,res){
-  Product.find({}).then((products)=>{
+  console.log(res);
+  Product.find().then((products)=>{
     res.json(products)
   })
+}
+
+
+export function deleteProduct(req,res) {
+  if(!isAdmin(req)){
+    res.status(403).json({
+      message:"Please login as admin to delete prodcts"
+    })
+    return
+  }
+  const productId = req.params.productId
+
+  Productroduct.deleteOne(
+    {productId:productId}
+  
+  ).then(()=>{
+    res.json({
+      message:"Product Deleted"
+    })
+  }).catch((error)=>{
+    res.status(403).json({
+      message:error
+    })
+  })
+
 }
